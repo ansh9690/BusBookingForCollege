@@ -1,0 +1,45 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block title %}
+Booking Details
+{% endblock title %}
+{% block css %}
+{% endblock css %}
+{% block body %}
+<form action="{% url 'home:home' %}" method="post">
+{% csrf_token %}
+  <div class="container" style="padding-bottom: 210px;">
+  <h1 class="mb-4 mt-5">Booking Details</h1>
+    <div class="shadow-lg p-3 mb-5 mt-5 bg-white">
+      <div class="card border-0 w-100">
+        <div class="card-body">
+          <div class="row">
+           <table class="table table-striped mt-3 mb-4">
+            <thead>
+            <td>SOURCE</td>
+            <td>DESTINATION</td>
+            <td>NUM OF SEATS</td>
+            <td>PRICE</td>
+            <td>TIME</td>
+            <td>DATE</td>
+
+            </thead>
+            <tr>
+                <td>{{book.source}}</td>
+                <td>{{book.destination}}</td>
+                <td>{{book.number_of_seats}}</td>
+                <td>{{book.price}}</td>
+                <td>{{book.startTime}}</td>
+                <td>{{book.date}}</td>
+            </tr>
+            </table>
+          </div>
+          <div class="row">
+            <a href="{% url 'home:pay_amount' %}" class="btn btn-primary">Pay Amount</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock body %}
