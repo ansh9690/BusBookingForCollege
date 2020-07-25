@@ -72,7 +72,7 @@ Welcome
               <form action="{% url 'home:booking' %}" method="post">
                 {% csrf_token %}
                 <div class="container">
-                  <input type="hidden" name='bus_id' value="{{bus.id}}"  type="number">
+                  <input type="hidden" name='bus_id' value="{{bus.id}}">
                   <button type="submit" class="btn btn-primary float-left">Book bus</button>
                   </div>
             </form>

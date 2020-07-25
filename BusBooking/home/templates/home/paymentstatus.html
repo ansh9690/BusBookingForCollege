@@ -1,0 +1,12 @@
+<div class="container">
+    {{response}}
+    <br>
+        <h2>Booking status of id- {{response.ORDERID}}</h2>
+        {% if response.RESPCODE == '01' %}
+        ORDER SUCCESS
+        {% else %}
+        {% for message in messages %}
+        order was not successful because {{ message }}
+        {% endfor %}
+        {% endif%}
+</div>

@@ -13,3 +13,8 @@
     <button type="submit">Upload</button>
   <h2>Please Upload Excel file</h2>
 </form>
+<br>
+<h1>List of Buses</h1>
+{% for bus in buses %}
+{{bus.id}}<br>
+{% endfor %}
