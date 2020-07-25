@@ -1,18 +1,16 @@
 from django.db import models
-from django.forms import ModelForm
-from django.contrib.auth.models import User
 
 
 class BusInfo(models.Model):
-    sno = models.AutoField(primary_key=True)
     source = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
     startTime = models.CharField(max_length=10)
     price = models.IntegerField(default=10)
-    duration = models.IntegerField(default=0)
+    duration = models.CharField(max_length=30)
     total_seats = models.IntegerField(default=0)
     rem_seats = models.IntegerField(default=0)
     date = models.DateField(auto_now=False)
+
     def __str__(self):
         return f'From {self.source} to {self.destination}'
 

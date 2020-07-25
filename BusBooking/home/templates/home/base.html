@@ -48,9 +48,24 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-          <a class="nav-link" href="#">Features</a>
-          <a class="nav-link" href="#">Pricing</a>
+          {% if user.is_authenticated %}
+             <div class="navbar-nav ml-auto">
+                 <div class="dropdown">
+                     <a class="btn nav-link dropdown-toggle" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        Hey {{ user.username|title}}
+                      </a>
+                     <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
+                         <li><a class="dropdown-item"  href="{% url 'accounts:logout' %}">Logout</a></li>
+                         <li><a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a></li>
+                     </ul>
+                </div>
+              </div>
+          {% else %}
+             <div class="navbar-nav ml-auto">
+                 <a class="nav-link" href="{% url 'accounts:login' %}">Sign in</a>
+                 <a class="nav-link" href="{% url 'accounts:register' %}">Sign up</a>
+             </div>
+          {% endif %}
         </div>
       </div>
     </div>
