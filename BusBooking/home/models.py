@@ -20,8 +20,10 @@ class BusInfo(models.Model):
 
 class BookingDetails(models.Model):
     BOOKED = 'B'
+    CANCELLED = 'C'
 
-    TICKET_STATUSES = ((BOOKED, 'Booked'),)
+    TICKET_STATUSES = ((BOOKED, 'Booked'),
+                       (CANCELLED, 'Cancelled'),)
     bus_id = models.CharField(max_length=25)
     name = models.CharField(max_length=30)
     source = models.CharField(max_length=100)

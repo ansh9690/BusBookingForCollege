@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import BusInfo, BookingDetails
 import datetime
@@ -77,7 +77,7 @@ def Bookings(request):
                 'INDUSTRY_TYPE_ID': 'Retail',
                 'WEBSITE': 'WEBSTAGING',
                 'CHANNEL_ID': 'WEB',
-                'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
+                'CALLBACK_URL': 'http://127.0.0.1:8000/pay-amount/',
 
             }
             param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
@@ -87,7 +87,6 @@ def Bookings(request):
 
 @csrf_exempt
 def HandleRequest(request):
-
     form = request.POST
     response_dict = {}
     for i in form.keys():
@@ -98,7 +97,14 @@ def HandleRequest(request):
     verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
     if verify:
         if response_dict['RESPCODE'] == '01':
+            book = get_object_or_404(BookingDetails, id=response_dict['ORDERID'])
             messages.success(request, "order success")
         else:
             messages.info(request, response_dict['RESPMSG'])
-    return render(request, 'home/paymentstatus.html', {'response': response_dict})
+            book = get_object_or_404(BookingDetails, id=response_dict['ORDERID'])
+            bus = get_object_or_404(BusInfo, id=book.bus_id)
+            rem_seats = bus.rem_seats+book.number_of_seats
+            BusInfo.objects.filter(id=bus.id).update(rem_seats=rem_seats)
+            BookingDetails.objects.filter(id=book.id).update(status='CANCELLED')
+            BookingDetails.objects.filter(id=book.id).update(number_of_seats=0)
+    return render(request, 'home/paymentstatus.html', {'response': response_dict, 'bus': book})

@@ -1,12 +1,32 @@
 <div class="container">
-    {{response}}
-    <br>
-        <h2>Booking status of id- {{response.ORDERID}}</h2>
+<!--    {{response}}-->
         {% if response.RESPCODE == '01' %}
         ORDER SUCCESS
+        <div id="print">
+            <h2>Bus id {{ response.ORDERID }}</h2>
+            <h2>Booking status- {{bus.status}}</h2>
+             <h2>Booked by {{ bus.name }} </h2>
+        </div>
+        <input type="button" onclick="printDiv('print')" value="Print Ticket" /><br>
+        <a type="button" href="{% url 'home:home' %}" class="btn btn-secondary">Back to home</a>
         {% else %}
         {% for message in messages %}
-        order was not successful because {{ message }}
+        <h3>order was not successful because {{ message }}</h3><br>
+        <a role="button" href="{% url 'home:home' %}" class="btn btn-secondary">Back to home</a>
         {% endfor %}
         {% endif%}
 </div>
+
+<script>
+console.log('working')
+    function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+</script>
